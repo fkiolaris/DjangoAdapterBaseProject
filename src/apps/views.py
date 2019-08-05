@@ -5,6 +5,7 @@ import requests
 import json
 from rest_framework.views import APIView
 from utils.requests import List, Detail
+from utils.schemas import Apps
 from rest_framework import status
 from manageAppsAPIAdapter.settings import APPS_TYPE, CMS_HEADER
 from rest_framework.response import Response
@@ -18,6 +19,15 @@ class AppsAPIList(APIView):
         payload = None
         try:
             payload = request.body
+            response = Apps.addApp(json.loads(payload.decode("utf-8")))
+            if not response == True:
+                return Response({
+                            "status": "Error",
+                            "message": str(response),
+                            "data": {}
+                            },
+                            status = status.HTTP_400_BAD_REQUEST,
+                            headers=CMS_HEADER)
         except:
             return Response({
                             "status": "Error",
@@ -40,6 +50,15 @@ class AppsAPIDetail(APIView):
         payload = None
         try:
             payload = request.body
+            response = Apps.editApp(json.loads(payload.decode("utf-8")))
+            if not response == True:
+                return Response({
+                            "status": "Error",
+                            "message": str(response),
+                            "data": {}
+                            },
+                            status = status.HTTP_400_BAD_REQUEST,
+                            headers=CMS_HEADER)            
         except:
             return Response({
                             "status": "Error",
