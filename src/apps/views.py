@@ -9,12 +9,22 @@ from utils.schemas import Apps
 from rest_framework import status
 from manageAppsAPIAdapter.settings import APPS_TYPE, CMS_HEADER
 from rest_framework.response import Response
+from .models import Table
 
 # Create your views here.
 class AppsAPIList(APIView):
     def get(self, request, format=None):
-        return List.get(APPS_TYPE).toResponse()
+        try:
+            data = Table(field1="test1", field2="test2").save()
+            return Response({
+                    "status": "test",
+                    },
+                    status = status.HTTP_200_OK,
+                    headers=CMS_HEADER)
+        except Exception as ex:
+            print(ex)
 
+            
     def post(self, request, format=None):
         payload = None
         try:

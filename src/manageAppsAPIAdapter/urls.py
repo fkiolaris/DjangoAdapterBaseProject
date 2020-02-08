@@ -34,6 +34,7 @@ def root(request):
 
 urlpatterns = [
     path('', root),
+    path('admin/', admin.site.urls),
     path('api/', root),
     path('api/apps/', include(('apps.urls'))),
 ]
